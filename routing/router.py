@@ -59,7 +59,7 @@ class Router:
         tier = self._score_to_tier(score)
 
         # --- Step 2: Apply confidence bump ---
-        final_tier, was_bumped, bump_reason = self._apply_bump(tier, router_confidence)
+        final_tier, was_bumped, bump_reason = self._apply_bump(tier, router_confidence, features)
 
         decision = RoutingDecision(
             tier=tier,
@@ -99,24 +99,30 @@ class Router:
             return ModelTier.LARGE
 
     def _apply_bump(
-        self, tier: ModelTier, confidence: float
+        self, tier: ModelTier, confidence: float, features: NormalisedFeatures
     ) -> tuple[ModelTier, bool, str | None]:
-        """
-        Bump up one tier if confidence < threshold and tier is not already LARGE.
-
-        Returns:
-            (final_tier, was_bumped, bump_reason)
-        """
+        
         if confidence >= self._bump_thresh or tier == ModelTier.LARGE:
             return tier, False, None
 
+        # High ambiguity + low domain = vague but not complex
+        # Cap the bump at Medium — no point sending to Large
+        is_vague_not_complex = (
+            features.ambiguity >= 0.70 and
+            features.domain_specificity <= 0.30
+        )
+        if is_vague_not_complex and tier == ModelTier.MEDIUM:
+            reason = (
+                f"high ambiguity ({features.ambiguity:.2f}) but low domain "
+                f"({features.domain_specificity:.2f}) — bump capped at medium"
+            )
+            return ModelTier.MEDIUM, False, None
+
         current_idx = _TIER_ORDER.index(tier)
-        bumped_tier = _TIER_ORDER[current_idx + 1]  # always safe: LARGE is excluded above
+        bumped_tier = _TIER_ORDER[current_idx + 1]
 
         reason = (
             f"router_confidence={confidence:.2f} < threshold={self._bump_thresh:.2f}; "
             f"bumped {tier.value} → {bumped_tier.value}"
         )
-        logger.debug("Confidence bump applied: %s", reason)
-
         return bumped_tier, True, reason
