@@ -110,7 +110,7 @@ _COMPARE_TERMS = re.compile(
 # ---------------------------------------------------------------------------
 _REASONING_TERMS = re.compile(
     r"\b("
-    r"explain\w*|reason\w*|why\s+does|why\s+is|why\s+do|why\s+are|"
+    r"explain\w*|reason\w*|derive\w*|why\s+does|why\s+is|why\s+do|why\s+are|"
     r"how\s+does|how\s+is|how\s+do\s+(?:I|you|we)|how\s+can\s+(?:I|you|we)|"
     r"step[- ]by[- ]step|walk\s+me\s+through|break\s+(?:it\s+)?down|"
     r"think\s+through|justify|elaborate|describe\s+the\s+process|"
