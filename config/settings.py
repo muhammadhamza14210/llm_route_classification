@@ -25,8 +25,11 @@ class Settings:
         os.getenv("ROUTER_CONFIDENCE_BUMP_THRESHOLD", "0.60")
     )
 
-    # --- DB ---
-    DATABASE_URL: str = os.getenv("DATABASE_URL", "")
+   # --- Azure SQL ---
+    AZURE_SQL_SERVER:   str = os.getenv("AZURE_SQL_SERVER", "")
+    AZURE_SQL_DATABASE: str = os.getenv("AZURE_SQL_DATABASE", "")
+    AZURE_SQL_USERNAME: str = os.getenv("AZURE_SQL_USERNAME", "")
+    AZURE_SQL_PASSWORD: str = os.getenv("AZURE_SQL_PASSWORD", "")
 
 
 settings = Settings()
