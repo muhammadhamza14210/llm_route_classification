@@ -1,12 +1,5 @@
 """
-scripts/seed_real.py
-
-Runs 15 real queries through the full pipeline and logs them to Azure SQL.
-Run this separately from seed_data.py — takes 3-5 minutes due to API calls.
-
-Usage:
-    export PYTHONPATH=.
-    python scripts/seed_real.py
+Runs 75 real queries through the full pipeline and logs them to Azure SQL.
 """
 
 import sys
