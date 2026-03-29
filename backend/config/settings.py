@@ -15,7 +15,7 @@ class Settings:
 
     # Deployment names — set in Foundry Studio, not model names
     AZURE_DEPLOYMENT_SMALL: str    = os.getenv("AZURE_DEPLOYMENT_SMALL", "gpt-4o-mini")
-    AZURE_DEPLOYMENT_MEDIUM: str   = os.getenv("AZURE_DEPLOYMENT_MEDIUM", "gpt-4o-mini")
+    AZURE_DEPLOYMENT_MEDIUM: str   = os.getenv("AZURE_DEPLOYMENT_MEDIUM", "o3-mini")
     AZURE_DEPLOYMENT_LARGE: str    = os.getenv("AZURE_DEPLOYMENT_LARGE", "gpt-4o")
 
     # --- Routing thresholds ---
